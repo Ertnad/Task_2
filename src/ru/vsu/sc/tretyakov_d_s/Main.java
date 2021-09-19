@@ -28,7 +28,7 @@ public class Main {
         Scanner scn = new Scanner(System.in);
         double value = scn.nextDouble();
 
-        if (value < 0) {
+        if (value <= 0) {
             System.out.println("Side can be only more than 0");
             System.exit(1);
         }
@@ -45,14 +45,9 @@ public class Main {
             System.out.println("The triangle exists");
         }
         else {
-            do {
-                System.out.println("The triangle does not exist. "
-                    + "Try to enter other values of the sides.");
-                A = readNumber("A");
-                B = readNumber("B");
-                C = readNumber("C");
-
-            } while (A + B > C && A + C > B && B + C > A);
+            System.out.println("The triangle does not exist");
+            System.out.println("Try to enter new values");
+            System.exit(1);
         }
     }
 

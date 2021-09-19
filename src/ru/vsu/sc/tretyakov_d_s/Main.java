@@ -1,38 +1,73 @@
 package ru.vsu.sc.tretyakov_d_s;
 
+import static java.lang.Math.sqrt;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        double A = readNumber("A");
+        double B = readNumber("B");
+        double C = readNumber("C");
+        double R = readNumber("R");
 
-        System.out.print("Введите значение гипотинузы  прямоугольного треугольника : С = ");
-        double C = readNumber();
-        double c = square(C);
-        System.out.print("Введите значение радиуса вписанной окружности: R = ");
-        double R = readNumber();
-        double a = 2*(R*R)-(c+C)/2;
-        double A = Math.sqrt(a);
-        double b = c-A;
-        double B = Math.sqrt(b);
-            if (c == A + B) {
-                    System.out.println("Окружность со стороной R можно вписать в прямоугольный треугольник с гипотинузой С");
-                    System.out.println("Такой прямоугольный треугольник существует");
-            }
-            else {
-                System.out.println("Окружность со стороной R нельзя вписать в прямоугольный треугольник с гипотинузой С");
-                System.out.println("Такой прямоугольный треугольник не существует");
-            }
+        checkingExistenceTriangle(A, B, C);
 
+        double P = findHalfPerimeter(A, B, C);
+
+        double R1 = findRadius(A,B,C,P);
+
+        printResult(R1,R);
     }
 
-    public static double readNumber() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+
+    private static double readNumber(String sideType) {
+        System.out.printf("Enter the value of the side %s of the triangle - ", sideType);
+
+        Scanner scn = new Scanner(System.in);
+        double value = scn.nextDouble();
+
+        if (value < 0) {
+            System.out.println("Side can be only more than 0");
+            System.exit(1);
+        }
+
+        return value;
     }
-    public static double square(double a) {
-        double result = a * a;
-        return result;
+
+    private static double findHalfPerimeter(double A, double B, double C) {
+        return ((A + B + C) / 2);
     }
+
+    private static void checkingExistenceTriangle(double A, double B, double C) {
+        if (A + B > C && A + C > B && B + C > A) {
+            System.out.println("The triangle exists");
+        }
+        else {
+            do {
+                System.out.println("The triangle does not exist. "
+                    + "Try to enter other values of the sides.");
+                A = readNumber("A");
+                B = readNumber("B");
+                C = readNumber("C");
+
+            } while (A + B > C && A + C > B && B + C > A);
+        }
+    }
+
+    private static double findRadius(double A, double B, double C, double P) {
+        return (sqrt(((P-A)*(P-B)*(P-C))/P));
+    }
+
+    public static void printResult(double R1, double R) {
+        if (R1 == R)
+        System.out.print("A circle with radius R "
+            + "can be inscribed in a triangle with sides A, B, C");
+        else
+            System.out.print("A circle with radius R "
+                + "cannot be inscribed in a triangle with sides A, B, C");
+    }
+
 }
+
